@@ -52,8 +52,8 @@ func handleHttps(w http.ResponseWriter, r *http.Request) {
 
 func handleHttp(w http.ResponseWriter, r *http.Request) {
 
-	if strings.Contains(r.URL.String(), "110.65.10.252/cxxl/Index.aspx") {
-		u, _ := url.Parse("http://110.65.10.252/cxxl/ShowNews.aspx?NewsNo=5747F92DECB987AD")
+	if strings.Contains(r.URL.String(), "http://www.lib.scut.edu.cn/cxjj/list.htm") {
+		u, _ := url.Parse("http://www.lib.scut.edu.cn/gzzd/list.htm")
 		r.URL = u
 		//r.URL.Path = "/cxxl/ShowNews.aspx"
 		//r.URL.Query().Set("NewsNo", "E03104625029843B")

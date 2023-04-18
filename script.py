@@ -13,7 +13,7 @@ js = """
     console.log(entries)
     return entries
 """
-driver.get("http://110.65.10.252/cxxl/Index.aspx")
+driver.get("http://www.lib.scut.edu.cn/cxjj/list.htm")
 entries = driver.execute_script(js)
 
 for i in range(0, len(entries)):
