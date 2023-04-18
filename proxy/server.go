@@ -5,14 +5,16 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
 var logger = log.New(os.Stderr, "proxy:", log.Llongfile|log.LstdFlags)
 
 func Serve(w http.ResponseWriter, r *http.Request) {
-	logger.Println(r.Method, r.Host)
+	logger.Println(r.Method, r.Host, r.URL)
 	if r.Method == http.MethodConnect {
 		handleHttps(w, r)
 	} else {
@@ -24,14 +26,12 @@ func Serve(w http.ResponseWriter, r *http.Request) {
 
 func handleHttps(w http.ResponseWriter, r *http.Request) {
 
-	logger.Println(r.URL)
-
 	destConn, err := net.DialTimeout("tcp", r.Host, 60*time.Second)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 		return
 	}
-	logger.Println(r.Host)
+
 	w.WriteHeader(http.StatusOK)
 
 	hijacker, ok := w.(http.Hijacker)
@@ -52,7 +52,14 @@ func handleHttps(w http.ResponseWriter, r *http.Request) {
 
 func handleHttp(w http.ResponseWriter, r *http.Request) {
 
-	logger.Println(r.URL.String())
+	if strings.Contains(r.URL.String(), "110.65.10.252/cxxl/Index.aspx") {
+		u, _ := url.Parse("http://110.65.10.252/cxxl/ShowNews.aspx?NewsNo=5747F92DECB987AD")
+		r.URL = u
+		//r.URL.Path = "/cxxl/ShowNews.aspx"
+		//r.URL.Query().Set("NewsNo", "E03104625029843B")
+		//r.RequestURI = r.URL.String() + "?NewsNo=E03104625029843B"
+	}
+	logger.Println(r.URL, r.RequestURI)
 	resp, err := http.DefaultTransport.RoundTrip(r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
