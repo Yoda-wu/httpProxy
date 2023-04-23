@@ -18,7 +18,6 @@ func Serve(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodConnect {
 		handleHttps(w, r)
 	} else {
-		logger.Println("is http")
 		handleHttp(w, r)
 	}
 
@@ -44,7 +43,7 @@ func handleHttps(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusServiceUnavailable)
 	}
-
+	// 启动协程转发数据
 	go transfer(destConn, clientConn)
 	go transfer(clientConn, destConn)
 
@@ -52,12 +51,9 @@ func handleHttps(w http.ResponseWriter, r *http.Request) {
 
 func handleHttp(w http.ResponseWriter, r *http.Request) {
 
-	if strings.Contains(r.URL.String(), "http://www.lib.scut.edu.cn/cxjj/list.htm") {
-		u, _ := url.Parse("http://www.lib.scut.edu.cn/gzzd/list.htm")
+	if strings.Contains(r.URL.String(), "http://www.lib.scut.edu.cn/2016/1025/c8738a127507/page.htm") {
+		u, _ := url.Parse("http://www.lib.scut.edu.cn/2016/1025/c8738a127508/page.htm")
 		r.URL = u
-		//r.URL.Path = "/cxxl/ShowNews.aspx"
-		//r.URL.Query().Set("NewsNo", "E03104625029843B")
-		//r.RequestURI = r.URL.String() + "?NewsNo=E03104625029843B"
 	}
 	logger.Println(r.URL, r.RequestURI)
 	resp, err := http.DefaultTransport.RoundTrip(r)

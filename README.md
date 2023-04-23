@@ -1,2 +1,5 @@
-# httpProxy
-simple hijack http message
+# HTTP的通信监控与回放
+部署部署类似Microsoft PetshopWeb应用基本实例，开发性能测试小工具能截获基于IE浏览器与Web服务器的交互的数据包，修改数据包（比如简化起见，修改要搜索的关键字），再把修改后的内容使用多线程的方式发送到服务器。统计请求每个网页上主要元素（gif,css等）需要的时间，以及请求整个网页的时间
+
+# 实现
+本作业的测试网站为 http://www.lib.scut.edu.cn/2016/1025/c8738a127507/page.htm

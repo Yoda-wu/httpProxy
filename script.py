@@ -13,7 +13,7 @@ js = """
     console.log(entries)
     return entries
 """
-driver.get("http://www.lib.scut.edu.cn/cxjj/list.htm")
+driver.get("http://www.lib.scut.edu.cn/2016/1025/c8738a127507/page.htm")
 entries = driver.execute_script(js)
 
 for i in range(0, len(entries)):
@@ -21,11 +21,11 @@ for i in range(0, len(entries)):
     if entry["entryType"] == "paint":
         continue
     try:
-        print("#" + str(i))
+        print("$" + str(i))
         print("name: " + entry["name"])
         print("size: %.2f" % (entry["transferSize"]) + "B")
         print("load time: %.2f" % (entry["duration"]) + "ms")
-        print("---------------------------")
+        print("#############################################")
     except:
         pass
 time.sleep(10)
